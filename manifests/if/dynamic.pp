@@ -78,7 +78,7 @@ define network::if::dynamic (
   validate_bool($peerdns)
   validate_bool($manage_hwaddr)
 
-  network_if_base { $title:
+  network::network_if_base { $title:
     ensure          => $ensure,
     ipaddress       => '',
     netmask         => '',

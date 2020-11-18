@@ -63,7 +63,7 @@ define network::if (
   validate_bool($flush)
   validate_bool($restart)
 
-  network_if_base { $title:
+  network::network_if_base { $title:
     ensure        => $ensure,
     ipaddress     => '',
     netmask       => '',

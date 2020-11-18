@@ -55,7 +55,7 @@ define network::alias (
   validate_bool($noaliasrouting)
   validate_bool($userctl)
 
-  network_if_base { $title:
+  network::network_if_base { $title:
     ensure         => $ensure,
     ipaddress      => $ipaddress,
     netmask        => $netmask,

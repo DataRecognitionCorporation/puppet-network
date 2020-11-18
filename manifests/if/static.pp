@@ -89,7 +89,7 @@ define network::if::static (
   }
   if is_array($ipv6address) {
     if size($ipv6address) > 0 {
-      validate_ip_address { $ipv6address: }
+      network::validate_ip_address { $ipv6address: }
       $primary_ipv6address = $ipv6address[0]
       $secondary_ipv6addresses = delete_at($ipv6address, 0)
     }
@@ -119,7 +119,7 @@ define network::if::static (
   validate_bool($flush)
   validate_bool($arpcheck)
 
-  network_if_base { $title:
+  network::network_if_base { $title:
     ensure          => $ensure,
     ipv6init        => $ipv6init,
     ipaddress       => $ipaddress,
