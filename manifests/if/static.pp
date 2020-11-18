@@ -103,12 +103,12 @@ Optional[Stdlib::IP::Address::V4::Nosubnet] $ipaddress = undef,
     $secondary_ipv6addresses = undef
   }
 
-  if ! is_mac_address($macaddress) {
+  if $macaddress {
+    $macaddy = $macaddress
+  } else {
     # Strip off any tailing VLAN (ie eth5.90 -> eth5).
     $title_clean = regsubst($title,'^(\w+)\.\d+$','\1')
     $macaddy = $::networking['interfaces'][$title_clean]['mac']
-  } else {
-    $macaddy = $macaddress
   }
 
   network::network_if_base { $title:
