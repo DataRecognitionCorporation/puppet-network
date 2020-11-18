@@ -46,37 +46,30 @@
 # Copyright (C) 2011 Mike Arnold, unless otherwise noted.
 #
 define network::if::dynamic (
-  $ensure,
-  $macaddress      = undef,
-  $manage_hwaddr   = true,
+  Enum['up', 'down'] $ensure,
+  Optional[Stdlib::MAC] $macaddress      = undef,
+  Boolean $manage_hwaddr   = true,
   $bootproto       = 'dhcp',
-  $userctl         = false,
+  Boolean $userctl         = false,
   $mtu             = undef,
   $dhcp_hostname   = undef,
   $ethtool_opts    = undef,
-  $peerdns         = false,
+  Boolean $peerdns         = false,
   $linkdelay       = undef,
-  $check_link_down = false,
+  Boolean $check_link_down = false,
   $defroute        = undef,
   $zone            = undef,
   $metric          = undef,
-  $restart         = true,
+  Boolean $restart         = true,
 ) {
-  # Validate our regular expressions
-  $states = [ '^up$', '^down$' ]
-  validate_re($ensure, $states, '$ensure must be either "up" or "down".')
 
   if ! is_mac_address($macaddress) {
     # Strip off any tailing VLAN (ie eth5.90 -> eth5).
     $title_clean = regsubst($title,'^(\w+)\.\d+$','\1')
-    $macaddy = getvar("::macaddress_${title_clean}")
+    $macaddy = $::networking['interfaces'][$title_clean]['mac']
   } else {
     $macaddy = $macaddress
   }
-  # Validate booleans
-  validate_bool($userctl)
-  validate_bool($peerdns)
-  validate_bool($manage_hwaddr)
 
   network::network_if_base { $title:
     ensure          => $ensure,

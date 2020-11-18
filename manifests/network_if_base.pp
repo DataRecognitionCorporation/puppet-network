@@ -63,59 +63,42 @@
 # Copyright (C) 2011 Mike Arnold, unless otherwise noted.
 #
 define network::network_if_base (
-  $ensure,
+  Enum['up', 'down'] $ensure,
   $macaddress,
   $ipaddress       = undef,
   $netmask         = undef,
-  $manage_hwaddr   = true,
+  Boolean $manage_hwaddr   = true,
   $gateway         = undef,
-  $noaliasrouting  = false,
+  Boolean $noaliasrouting  = false,
   $ipv6address     = undef,
   $ipv6gateway     = undef,
-  $ipv6init        = false,
-  $ipv6autoconf    = false,
+  Boolean $ipv6init        = false,
+  Boolean $ipv6autoconf    = false,
   $ipv6secondaries = undef,
   $bootproto       = 'none',
-  $userctl         = false,
+  Boolean $userctl         = false,
   $mtu             = undef,
   $dhcp_hostname   = undef,
   $ethtool_opts    = undef,
   $bonding_opts    = undef,
-  $isalias         = false,
-  $peerdns         = false,
-  $ipv6peerdns     = false,
+  Boolean $isalias         = false,
+  Boolean $peerdns         = false,
+  Boolean $ipv6peerdns     = false,
   $dns1            = undef,
   $dns2            = undef,
   $domain          = undef,
   $bridge          = undef,
   $linkdelay       = undef,
   $scope           = undef,
-  $check_link_down = false,
-  $flush           = false,
+  Boolean $check_link_down = false,
+  Boolean $flush           = false,
   $defroute        = undef,
   $zone            = undef,
   $metric          = undef,
-  $promisc         = false,
-  $restart         = true,
-  $arpcheck        = true,
+  Boolean $promisc         = false,
+  Boolean $restart         = true,
+  Boolean $arpcheck        = true,
 ) {
-  # Validate our booleans
-  validate_bool($noaliasrouting)
-  validate_bool($userctl)
-  validate_bool($isalias)
-  validate_bool($peerdns)
-  validate_bool($ipv6init)
-  validate_bool($ipv6autoconf)
-  validate_bool($ipv6peerdns)
-  validate_bool($check_link_down)
-  validate_bool($manage_hwaddr)
-  validate_bool($flush)
-  validate_bool($promisc)
-  validate_bool($restart)
-  validate_bool($arpcheck)
-  # Validate our regular expressions
-  $states = [ '^up$', '^down$' ]
-  validate_re($ensure, $states, '$ensure must be either "up" or "down".')
 
   include '::network'
 
@@ -177,4 +160,3 @@ define network::network_if_base (
     }
   }
 } # define network::network_if_base
-
