@@ -76,7 +76,7 @@ define network::bond::static (
   validate_bool($ipv6init)
   validate_bool($ipv6peerdns)
 
-  network_if_base { $title:
+  network::network_if_base { $title:
     ensure       => $ensure,
     ipaddress    => $ipaddress,
     netmask      => $netmask,
@@ -114,7 +114,7 @@ define network::bond::static (
               'set alias[last()]/modulename bonding',
             ],
             onlyif  => "match alias[*][. = '${title}'] size == 0",
-            before  => Network_if_base[$title],
+            before  => Network::Network_if_base[$title],
           }
         }
         default: {}
@@ -130,7 +130,7 @@ define network::bond::static (
               'set alias[last()]/modulename bonding',
             ],
             onlyif  => "match alias[*][. = '${title}'] size == 0",
-            before  => Network_if_base[$title],
+            before  => Network::Network_if_base[$title],
           }
         }
         default: {}

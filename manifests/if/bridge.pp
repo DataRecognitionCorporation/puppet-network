@@ -49,7 +49,7 @@ define network::if::bridge (
     $macaddy = $macaddress
   }
 
-  network_if_base { $title:
+  network::network_if_base { $title:
     ensure       => $ensure,
     ipaddress    => '',
     netmask      => '',

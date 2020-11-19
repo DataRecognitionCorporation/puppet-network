@@ -49,7 +49,7 @@ define network::bond::dynamic (
   $states = [ '^up$', '^down$' ]
   validate_re($ensure, $states, '$ensure must be either "up" or "down".')
 
-  network_if_base { $title:
+  network::network_if_base { $title:
     ensure       => $ensure,
     ipaddress    => '',
     netmask      => '',
@@ -80,7 +80,7 @@ define network::bond::dynamic (
               'set alias[last()]/modulename bonding',
             ],
             onlyif  => "match alias[*][. = '${title}'] size == 0",
-            before  => Network_if_base[$title],
+            before  => Network::Network_if_base[$title],
           }
         }
         default: {}
@@ -96,7 +96,7 @@ define network::bond::dynamic (
               'set alias[last()]/modulename bonding',
             ],
             onlyif  => "match alias[*][. = '${title}'] size == 0",
-            before  => Network_if_base[$title],
+            before  => Network::Network_if_base[$title],
           }
         }
         default: {}
