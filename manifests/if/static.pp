@@ -103,10 +103,17 @@ Optional[Stdlib::IP::Address::V4::Nosubnet] $ipaddress = undef,
     $secondary_ipv6addresses = undef
   }
 
+  notice ("Notice: $title}")
+
   if $macaddress {
+    $_manage_hwaddr = $manage_hwaddr
     $macaddy = $macaddress
-  } else {
+  }elsif $title =~ /^lo:\d$/ {
+    $macaddy = '00:00:00:00:00:00'
+    $_manage_hwaddr = false
+  }else {
     # Strip off any tailing VLAN (ie eth5.90 -> eth5).
+    $_manage_hwaddr = $manage_hwaddr
     $title_clean = regsubst($title,'^(\w+)\.\d+$','\1')
     $macaddy = $::networking['interfaces'][$title_clean]['mac']
   }
@@ -122,7 +129,7 @@ Optional[Stdlib::IP::Address::V4::Nosubnet] $ipaddress = undef,
     ipv6autoconf    => $ipv6autoconf,
     ipv6secondaries => $secondary_ipv6addresses,
     macaddress      => $macaddy,
-    manage_hwaddr   => $manage_hwaddr,
+    manage_hwaddr   => $_manage_hwaddr,
     bootproto       => 'none',
     userctl         => $userctl,
     mtu             => $mtu,
