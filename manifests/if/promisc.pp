@@ -142,7 +142,7 @@ define network::if::promisc (
     }
   }
 
-  network_if_base { $title:
+  network::network_if_base { $title:
     ensure        => $ensure,
     ipaddress     => '',
     netmask       => '',
